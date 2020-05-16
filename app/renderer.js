@@ -7,26 +7,23 @@ class Calculator {
     }
 }
 var isNumber = false;
-const calculator = new Calculator(0, 0, false);
+const calculator = new Calculator('', '', false);
 const buttons = document.querySelectorAll('button');
 const display = document.querySelector('.calculator_display');
 
 for (var i = 0; i < buttons.length; i++) {
   buttons[i].addEventListener('click', function() {
-    console.clear();
-    console.log("You clicked:", this.innerHTML);
 	checkNumber(this.innerHTML);
-	console.log(isNumber);
 	if(isNumber || ('.' === this.innerHTML)){
-		if(calculator.isSecondVal === false){
-			if(calculator.field1 === 0){
-				calculator.field1 = ('.' === this.innerHTML) ? ('0' + this.innerHTML) : this.innerHTML;
-			} else if(calculator.field1.length < 8){
-				calculator.field1 = calculator.field1 + this.innerHTML;
-			}
-			display.innerText = calculator.field1;
+		if(calculator.isSecondVal === false) {
+				if(calculator.field1 === '0'){
+					calculator.field1 = ('.' === this.innerHTML) ? ('0' + this.innerHTML) : this.innerHTML;
+				} else if(calculator.field1.length < 8){
+					calculator.field1 = calculator.field1 + this.innerHTML;
+				}
+				display.innerText = calculator.field1;
 		} else {
-			if(calculator.field2 === 0) {
+			if(calculator.field2 === '0') {
 				calculator.field2 = this.innerHTML;
 			}
 			else if(calculator.field2.length < 8){
@@ -72,21 +69,21 @@ function calculate(){
 			result = value1 + value2;
 			break;
 	}
-	if(isInteger( result)){
-		display.innerText = result;
-	} else {
-		display.innerText = result.toFixed(3);
-	}
+	parseResult(result);
 	clear();
 }
 
-function parseResult(){
-	
+function parseResult(val){
+	if(isInteger(val)){
+		display.innerText = val;
+	} else {
+		display.innerText = val.toFixed(3);
+	}
 }
 
 function clear(){
-	calculator.field1 = 0;
-	calculator.field2 =0;
+	calculator.field1 = '0';
+	calculator.field2 = '0';
 	calculator.isSecondVal =false;
 }
 
@@ -97,5 +94,4 @@ function isInteger(value) {
 function checkNumber(number){
 	var regex = /^\d+$/;
 	isNumber = regex.test(number);
-	console.log('inside check'+isNumber);
 };
